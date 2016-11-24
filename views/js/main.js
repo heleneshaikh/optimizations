@@ -1,23 +1,5 @@
-/*
- Welcome to the 60fps project! Your goal is to make Cam's Pizzeria website run
- jank-free at 60 frames per second.
-
- There are two major issues in this code that lead to sub-60fps performance. Can
- you spot and fix both?
-
-
- Built into the code, you'll find a few instances of the User Timing API
- (window.performance), which will be console.log()ing frame rate data into the
- browser console. To learn more about User Timing API, check out:
- http://www.html5rocks.com/en/tutorials/webperformance/usertiming/
-
- Creator:
- Cameron Pittman, Udacity Course Developer
- cameron *at* udacity *dot* com
- */
-
-// As you may have realized, this website randomly generates pizzas.
-// Here are arrays of all possible pizza ingredients.
+// This website randomly generates pizzas.
+// arrays of all possible pizza ingredients.
 var INGREDIENTS = {};
 INGREDIENTS.meats = [
     "Pepperoni",
@@ -210,40 +192,33 @@ function getNoun(y) {
                 "hawk", "trout", "squid", "octopus", "sloth", "snail", "locust", "baboon", "lemur", "meerkat", "oyster", "frog", "toad", "jellyfish",
                 "butterfly", "caterpillar", "tiger", "hyena", "zebra", "snail", "pig", "weasel", "donkey", "penguin", "crane", "buzzard", "vulture",
                 "rhino", "hippopotamus", "dolphin", "sparrow", "beaver", "moose", "minnow", "otter", "bat", "mongoose", "swan", "firefly", "platypus"];
-            return animals;
         case "profession":
             return ["doctor", "lawyer", "ninja", "writer", "samurai", "surgeon", "clerk", "artist", "actor", "engineer", "mechanic",
                 "comedian", "fireman", "nurse", "RockStar", "musician", "carpenter", "plumber", "cashier", "electrician", "waiter", "president", "governor",
                 "senator", "scientist", "programmer", "singer", "dancer", "director", "mayor", "merchant", "detective", "investigator", "navigator", "pilot",
                 "priest", "cowboy", "stagehand", "soldier", "ambassador", "pirate", "miner", "police"];
-            return professions;
         case "fantasy":
             return ["centaur", "wizard", "gnome", "orc", "troll", "sword", "fairy", "pegasus", "halfling", "elf", "changeling", "ghost",
                 "knight", "squire", "magician", "witch", "warlock", "unicorn", "dragon", "wyvern", "princess", "prince", "king", "queen", "jester",
                 "tower", "castle", "kraken", "seamonster", "mermaid", "psychic", "seer", "oracle"];
-            return fantasy;
         case "music":
             return ["violin", "flute", "bagpipe", "guitar", "symphony", "orchestra", "piano", "trombone", "tuba", "opera", "drums",
                 "harpsichord", "harp", "harmonica", "accordion", "tenor", "soprano", "baritone", "cello", "viola", "piccolo", "ukelele", "woodwind", "saxophone",
                 "bugle", "trumpet", "sousaphone", "cornet", "stradivarius", "marimbas", "bells", "timpani", "bongos", "clarinet", "recorder", "oboe", "conductor",
                 "singer"];
-            return music;
         case "horror":
             return ["murderer", "chainsaw", "knife", "sword", "murder", "devil", "killer", "psycho", "ghost", "monster", "godzilla", "werewolf",
                 "vampire", "demon", "graveyard", "zombie", "mummy", "curse", "death", "grave", "tomb", "beast", "nightmare", "frankenstein", "specter",
                 "poltergeist", "wraith", "corpse", "scream", "massacre", "cannibal", "skull", "bones", "undertaker", "zombie", "creature", "mask", "psychopath",
                 "fiend", "satanist", "moon", "fullMoon"];
-            return horror;
         case "gross":
             return ["slime", "bug", "roach", "fluid", "pus", "booger", "spit", "boil", "blister", "orifice", "secretion", "mucus", "phlegm",
                 "centipede", "beetle", "fart", "snot", "crevice", "flatulence", "juice", "mold", "mildew", "germs", "discharge", "toilet", "udder", "odor", "substance",
                 "fluid", "moisture", "garbage", "trash", "bug"];
-            return gross;
         case "everyday":
             return ["mirror", "knife", "fork", "spork", "spoon", "tupperware", "minivan", "suburb", "lamp", "desk", "stereo", "television", "TV",
                 "book", "car", "truck", "soda", "door", "video", "game", "computer", "calender", "tree", "plant", "flower", "chimney", "attic", "kitchen",
                 "garden", "school", "wallet", "bottle"];
-            return everyday;
         case "jewelry":
             return ["earrings", "ring", "necklace", "pendant", "choker", "brooch", "bracelet", "cameo", "charm", "bauble", "trinket", "jewelry",
                 "anklet", "bangle", "locket", "finery", "crown", "tiara", "blingBling", "chain", "rosary", "jewel", "gemstone", "beads", "armband", "pin",
@@ -381,16 +356,18 @@ var resizePizzas = function (size) {
     window.performance.mark("mark_start_resize");   // User Timing API function
 
     // Changes the value for the size of the pizza above the slider
+    var pizzaSize = document.querySelector("#pizzaSize");
+
     function changeSliderLabel(size) {
         switch (size) {
             case "1":
-                document.querySelector("#pizzaSize").innerHTML = "Small";
+                pizzaSize.textContent = "Small";
                 return;
             case "2":
-                document.querySelector("#pizzaSize").innerHTML = "Medium";
+                pizzaSize.textContent = "Medium";
                 return;
             case "3":
-                document.querySelector("#pizzaSize").innerHTML = "Large";
+                pizzaSize.textContent = "Large";
                 return;
             default:
                 console.log("bug in changeSliderLabel");
@@ -404,33 +381,29 @@ var resizePizzas = function (size) {
         var oldWidth = elem.offsetWidth;
         var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
         var oldSize = oldWidth / windowWidth;
-
-        // Changes the slider value to a percent width
-        function sizeSwitcher(size) {
-            switch (size) {
-                case "1":
-                    return 0.25;
-                case "2":
-                    return 0.3333;
-                case "3":
-                    return 0.5;
-                default:
-                    console.log("bug in sizeSwitcher");
-            }
-        }
-
-        var newSize = sizeSwitcher(size);
-        return (newSize - oldSize) * windowWidth;
     }
 
     // Iterates through pizza elements on the page and changes their widths
     function changePizzaSizes(size) {
-        for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-            var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-            document.querySelectorAll(".randomPizzaContainer")[i].style.width = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
+        var randomPizzaContainer = document.querySelectorAll(".randomPizzaContainer");
+        // Changes the slider value to a percent width
+        switch (size) {
+            case "1":
+                newWidth = 25;
+                break;
+            case "2":
+                newWidth = 33;
+                break;
+            case "3":
+                newWidth = 50;
+                break;
+            default:
+                console.log("bug in sizeSwitcher");
+        }
+        for (var i = 0; i < randomPizzaContainer.length; i++) {
+            randomPizzaContainer[i].style.width = newWidth + "%";
         }
     }
-
     changePizzaSizes(size);
 
     // User Timing API is awesome
@@ -469,7 +442,6 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 function updatePositions() {
     frame++;
     window.performance.mark("mark_start_frame");
-
     var items = document.querySelectorAll('.mover');
     var sin = Math.sin((document.body.scrollTop / 1250));
     for (var i = 0; i < items.length; i++) {
