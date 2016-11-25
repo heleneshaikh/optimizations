@@ -373,7 +373,7 @@ var resizePizzas = function (size) {
 
     // Iterates through pizza elements on the page and changes their widths
     function changePizzaSizes(size) {
-        var randomPizzaContainer = document.querySelectorAll(".randomPizzaContainer");
+        var randomPizzaContainer = document.getElementsByClassName("randomPizzaContainer");
         // Changes the slider value to a percent width
         switch (size) {
             case "1":
@@ -388,7 +388,7 @@ var resizePizzas = function (size) {
             default:
                 console.log("bug in sizeSwitcher");
         }
-        for (var i = 1; i < randomPizzaContainer.length; i++) {
+        for (var i = 0; i < randomPizzaContainer.length; i++) {
             randomPizzaContainer[i].style.width = newWidth + "%";
         }
     }
@@ -428,6 +428,7 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
+
 function updatePositions() {
     frame++;
     window.performance.mark("mark_start_frame");
@@ -451,9 +452,11 @@ window.addEventListener('scroll', updatePositions);
 
 // Generates the sliding pizzas when the page loads.
 document.addEventListener('DOMContentLoaded', function () {
-    var cols = 6;
+    var cols = 8;
     var s = 256;
-    for (var i = 0; i < 26; i++) {
+    var numOfPizzas = cols * (window.screen.height / s + 1);
+
+    for (var i = 0; i < numOfPizzas; i++) {
         var elem = document.createElement('img');
         elem.className = 'mover';
         elem.src = "images/pizzas.png";
