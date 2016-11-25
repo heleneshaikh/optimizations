@@ -3,10 +3,10 @@
 As part of Udacity's Front-End Nanodegree, our challenge was to optimize a website with the knowledge we gained from the videos.
 
 ### Getting started
-To get started, check out the repository and inspect the code. You can also visit https://heleneshaikh.github.io/optimizations/index.html
+To get started, check out the repository or visit https://heleneshaikh.github.io/optimizations/index.html
 
 ####Part 1: Optimize PageSpeed Insights score for index.html
-By compressing the images and increasing the speed in total by adapting the css, html, and js, I was able to achieve high scores on Google Page Insights.
+By compressing the images through Photoshop & ImageOptim, increasing the speed in total by adapting the css, html, and js, I was able to achieve high scores on Google Page Insights.
 
 ####Part 2: Optimize Frames per Second in pizza.html
 Refactored the code in main.js due to a lot of "jank" and "forced syncronized layouts". Check the console and you will see that the pizza slider responds quite quickly.
